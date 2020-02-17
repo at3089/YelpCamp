@@ -1,6 +1,6 @@
 const express = require("express"),
   app = express(),
-  port = 3001,
+  port = 3000,
   bodyParser = require("body-parser"),
   mongoose = require("mongoose");
 
@@ -14,12 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 // SCHEMA SETUP
-const campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
-const Campground = mongoose.model("Campground", campgroundSchema);
+const Campground = require("./models/campground");
 
 // Campground.create(
 //   {
