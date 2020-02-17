@@ -15,7 +15,7 @@ app.set("view engine", "ejs");
 
 // SCHEMA SETUP
 const Campground = require("./models/campground");
-const Commment = require("./models/comment");
+const Comment = require("./models/comment");
 
 // Seed DB
 // const seedDB = require("./seeds");
@@ -25,6 +25,10 @@ app.get("/", function(req, res) {
   res.render("landing");
 });
 
+// ==================================================================
+// Campgrounds Routes
+// ==================================================================
+
 // INDEX - show all campgrounds
 app.get("/campgrounds", function(req, res) {
   // Get all campgrounds from DB
@@ -32,7 +36,7 @@ app.get("/campgrounds", function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("index", { campgrounds: allCampgrounds });
+      res.render("campgrounds/index", { campgrounds: allCampgrounds });
     }
   });
 });
@@ -57,7 +61,7 @@ app.post("/campgrounds", function(req, res) {
 
 // NEW - show form to create new campground
 app.get("/campgrounds/new", function(req, res) {
-  res.render("new");
+  res.render("campgrounds/new");
 });
 
 // SHOW - shows more info about one campground
@@ -70,9 +74,49 @@ app.get("/campgrounds/:id", function(req, res) {
         console.log(err);
       } else {
         // render show template with that campground
-        res.render("show", { campground: foundCampground });
+        res.render("campgrounds/show", { campground: foundCampground });
       }
     });
+});
+
+// ==================================================================
+// Comments Routes
+// ==================================================================
+
+// NEW
+app.get("/campgrounds/:id/comments/new", function(req, res) {
+  // find campground by id
+  Campground.findById(req.params.id, function(err, campground) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/new", { campground: campground });
+    }
+  });
+});
+
+// CREATE
+app.post("/campgrounds/:id/comments", function(req, res) {
+  // lookup campground using ID
+  Campground.findById(req.params.id, function(err, campground) {
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      // create new commment
+      Comment.create(req.body.comment, function(err, comment) {
+        if (err) {
+          console.log(err);
+        } else {
+          // connect new comment to campground
+          campground.comments.push(comment);
+          campground.save();
+          // redirect to campground show page
+          res.redirect("/campgrounds/" + campground._id);
+        }
+      });
+    }
+  });
 });
 
 app.listen(port, () =>
