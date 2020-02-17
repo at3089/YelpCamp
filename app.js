@@ -2,7 +2,9 @@ const express = require("express"),
   app = express(),
   port = 3000,
   bodyParser = require("body-parser"),
-  mongoose = require("mongoose");
+  mongoose = require("mongoose"),
+  Campground = require("./models/campground"),
+  Comment = require("./models/comment");
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
@@ -12,10 +14,7 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-
-// SCHEMA SETUP
-const Campground = require("./models/campground");
-const Comment = require("./models/comment");
+app.use(express.static(__dirname + "/public"));
 
 // Seed DB
 // const seedDB = require("./seeds");
