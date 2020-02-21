@@ -23,6 +23,20 @@ app.use(express.static(__dirname + "/public"));
 // const seedDB = require("./seeds");
 // seedDB();
 
+// PASSPORT CONFIGURATION
+app.use(
+  require("express-session")({
+    secret: "The quick brown fox",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.get("/", function(req, res) {
   res.render("landing");
 });
