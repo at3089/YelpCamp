@@ -3,8 +3,11 @@ const express = require("express"),
   port = 3000,
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
+  passport = require("passport"),
+  LocalStrategy = require("passport-local"),
   Campground = require("./models/campground"),
-  Comment = require("./models/comment");
+  Comment = require("./models/comment"),
+  User = require("./models/user");
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
