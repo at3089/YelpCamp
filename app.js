@@ -171,6 +171,11 @@ app.post(
   function(req, res) {}
 );
 
+// logout route
+app.get("/logout", function(req, res) {
+  req.logOut();
+  res.redirect("/campgrounds");
+});
 
 // Listen on Port 3000
 app.listen(port, () =>
