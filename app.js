@@ -1,6 +1,6 @@
 const express = require("express"),
   app = express(),
-  port = process.env.PORT || 3000,
+  port = process.env.PORT || 3002,
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
   flash = require("connect-flash"),
@@ -16,7 +16,7 @@ const indexRoutes = require("./routes/index"),
   campgroundRoutes = require("./routes/campground"),
   commentRoutes = require("./routes/comment");
 
-mongoose.connect("mongodb://localhost:27017/yelp_camp", {
+mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
