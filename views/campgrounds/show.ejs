@@ -22,9 +22,16 @@
           </p>
           <a
             href="/campgrounds/<%= campground._id %>/edit"
-            class="btn btn-warning"
+            class="btn btn-warning btn-xs"
             >Edit</a
           >
+          <form
+            id="campground-delete-form"
+            action="/campgrounds/<%= campground._id %>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-danger btn-xs">Delete</button>
+          </form>
         </div>
       </div>
       <div class="well">

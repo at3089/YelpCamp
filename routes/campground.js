@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Campground = require("../models/campground");
+const Comment = require("../models/comment");
 
 // ==================================================================
 // Campgrounds Routes
@@ -93,6 +94,51 @@ router.put("/:id", function(req, res) {
     }
   });
 });
+
+// DESTROY Campground route
+router.delete("/:id", (req, res) => {
+  Campground.findByIdAndRemove(req.params.id, (err, campgroundRemoved) => {
+    if (err) {
+      console.log(err);
+    }
+    Comment.deleteMany({ _id: { $in: campgroundRemoved.comments } }, err => {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect("/campgrounds");
+    });
+  });
+});
+
+// router.delete("/:id", function(req, res) {
+//   Campground.findByIdAndRemove(req.params.id, function(err, campgroundRemoved) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       Comment.deleteMany({ _id: { $in: campgroundRemoved.comments } }, err => {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           res.redirect("/campgrounds");
+//         }
+//       });
+//     }
+//   });
+// });
+
+// router.delete("/:id", checkCampgroundOwnership, (req, res) => {
+//   Campground.findByIdAndRemove(req.params.id, (err, campgroundRemoved) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     Comment.deleteMany({ _id: { $in: campgroundRemoved.comments } }, err => {
+//       if (err) {
+//         console.log(err);
+//       }
+//       res.redirect("/campgrounds");
+//     });
+//   });
+// });
 
 // middleware
 function isLoggedIn(req, res, next) {
