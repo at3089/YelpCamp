@@ -47,7 +47,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
       console.log(err);
     } else {
       // Redirect back to campgrounds page
-      res.redirect("");
+      res.redirect("/campgrounds");
     }
   });
 });
