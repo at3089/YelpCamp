@@ -1,17 +1,6 @@
-.thumbnail img {
-  width: 100%;
-}
-.thumbnail {
-  padding: 0;
-}
-
+/* Campground show page delete button */
 .delete-form {
-  display: inline;
-}
-
-html,
-body {
-  height: 100%;
+  display: inline-block;
 }
 
 /* Sticky footer styles
